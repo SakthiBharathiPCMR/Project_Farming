@@ -9,6 +9,7 @@ public class PlayerController : MonoBehaviour
     [Header("References")]
     [SerializeField] private Transform mainCamera;
     [SerializeField] private CharacterController characterController;
+    [SerializeField] private Animator playerAnimator;
 
     [Header("Movement Settings")]
     [SerializeField] private float walkSpeed = 6f;
@@ -49,6 +50,12 @@ public class PlayerController : MonoBehaviour
             UpdateMoveSpeed();
             RotateTowardsMovementDirection(direction);
             MoveCharacter(direction);
+            playerAnimator.SetFloat("Speed", 1);
+        }
+        else
+        {
+            playerAnimator.SetFloat("Speed", 0.1f);
+            playerAnimator.SetBool("IsRunning", false);
         }
     }
 
@@ -58,10 +65,13 @@ public class PlayerController : MonoBehaviour
         if (Input.GetKey(KeyCode.LeftShift))
         {
             moveSpeed = Mathf.Lerp(moveSpeed, sprintSpeed, transitionSpeed * Time.deltaTime);
+            playerAnimator.SetBool("IsRunning", true);
+
         }
         else
         {
             moveSpeed = Mathf.Lerp(moveSpeed, walkSpeed, transitionSpeed * Time.deltaTime);
+            playerAnimator.SetBool("IsRunning", false);
         }
     }
 
@@ -83,6 +93,7 @@ public class PlayerController : MonoBehaviour
 
         // Move character controller
         characterController.Move(moveDirection * Time.deltaTime);
+
     }
 
     private void ApplyGravityAndJump()
@@ -97,6 +108,7 @@ public class PlayerController : MonoBehaviour
         if (Input.GetButtonDown("Jump") && characterController.isGrounded)
         {
             velocity.y = Mathf.Sqrt(jumpHeight * JUMP_FORCE_MULTIPLIER * gravity);
+            playerAnimator.SetTrigger("IsJumping");
         }
 
         // Apply gravity to vertical velocity
