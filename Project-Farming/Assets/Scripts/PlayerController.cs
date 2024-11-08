@@ -10,6 +10,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private Transform mainCamera;
     [SerializeField] private CharacterController characterController;
     [SerializeField] private Animator playerAnimator;
+    [SerializeField] private PlayerInteract playerInteract;
 
     [Header("Movement Settings")]
     [SerializeField] private float walkSpeed = 6f;
@@ -25,6 +26,8 @@ public class PlayerController : MonoBehaviour
     private Vector3 velocity;
     private float moveSpeed;
 
+
+
     void Start()
     {
         Cursor.lockState = CursorLockMode.Locked;
@@ -35,6 +38,16 @@ public class PlayerController : MonoBehaviour
     {
         HandleMovement();
         ApplyGravityAndJump();
+        Interaction();
+    }
+
+    private void Interaction()
+    {
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            playerInteract.InteractLand();
+        }
+
     }
 
     private void HandleMovement()
@@ -117,4 +130,5 @@ public class PlayerController : MonoBehaviour
         // Move character controller based on vertical velocity
         characterController.Move(velocity * Time.deltaTime);
     }
+
 }
