@@ -20,7 +20,7 @@ public class PlayerController : MonoBehaviour
 
     [Header("Jump & Gravity Settings")]
     [SerializeField] private float gravity = -9.81f;
-    [SerializeField] private float jumpHeight = 2f;
+    //[SerializeField] private float jumpHeight = 2f;
 
     private float turnSmoothVelocity;
     private Vector3 velocity;
@@ -118,11 +118,12 @@ public class PlayerController : MonoBehaviour
         }
 
         // Jump if grounded and jump button is pressed
-        if (Input.GetButtonDown("Jump") && characterController.isGrounded)
+
+        /*if (Input.GetButtonDown("Jump") && characterController.isGrounded)
         {
             velocity.y = Mathf.Sqrt(jumpHeight * JUMP_FORCE_MULTIPLIER * gravity);
             playerAnimator.SetTrigger("IsJumping");
-        }
+        }*/
 
         // Apply gravity to vertical velocity
         velocity.y += gravity * Time.deltaTime;
